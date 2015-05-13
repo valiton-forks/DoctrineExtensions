@@ -52,7 +52,7 @@ class Xml extends XmlFileDriver
                             $this->getBooleanAttribute($slug, 'updatable') : true,
                         'unique' => $this->isAttributeSet($slug, 'unique') ?
                             $this->getBooleanAttribute($slug, 'unique') : true,
-                        'unique_base' => $this->isAttributeSet($slug, 'unique_base') ?
+                        'unique_base' => $this->isAttributeSet($slug, 'unique-base') ?
                             $this->getAttribute($slug, 'unique_base') : null,
                         'separator' => $this->isAttributeSet($slug, 'separator') ?
                             $this->getAttribute($slug, 'separator') : '-',
