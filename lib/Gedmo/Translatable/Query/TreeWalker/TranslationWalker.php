@@ -292,7 +292,7 @@ class TranslationWalker extends SqlWalker
                 $transFieldSql = $fallbackSql = $tblAlias.'.'.$tmeta->getQuotedColumnName($field, $this->platform);
                 foreach (array_reverse($fallbackComponents) as $tblAliasFallback) {
                     $fallbackField = $tblAliasFallback.'.'.$tmeta->getQuotedColumnName($field, $this->platform);
-                    $fallbackSql = "COALESCE({$fallbackField}, {$fallbackSql})";
+                    $fallbackSql = "COALESCE({$fallbackSql}, {$fallbackField})";
                 }
                 $this->replacements[$originalField] = $fallbackSql;
             }
