@@ -316,15 +316,11 @@ class TranslatableListener extends MappedEventSubscriber
         $translation = new $tclass;
         $translation->setObject($object);
         $translation->setLocale($this->locale);
-        $changeSet = OMH::getObjectChangeSet($uow, $object);
         foreach ($exm->getFields() as $field) {
-            // translate only those fields, which have changed, otherwise translation value is default
-            // if a translation in different language is the same. Persist translation manually in collection
-            if (array_key_exists($field, $changeSet)) {
-                $prop = $meta->getReflectionProperty($field);
-                $tprop = $tmeta->getReflectionProperty($field);
-                $tprop->setValue($translation, $prop->getValue($object));
-            }
+            // set all fields from object to work around not null constraints
+            $prop = $meta->getReflectionProperty($field);
+            $tprop = $tmeta->getReflectionProperty($field);
+            $tprop->setValue($translation, $prop->getValue($object));
         }
         $om->persist($translation);
         $uow->computeChangeSet($tmeta, $translation);
