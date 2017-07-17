@@ -451,6 +451,15 @@ class TranslatableListener extends MappedEventSubscriber
     }
 
     /**
+     * @return bool
+     */
+    public function isSkipOnLoad()
+    {
+        return $this->skipOnLoad;
+    }
+
+
+    /**
      * {@inheritDoc}
      */
     protected function getNamespace()

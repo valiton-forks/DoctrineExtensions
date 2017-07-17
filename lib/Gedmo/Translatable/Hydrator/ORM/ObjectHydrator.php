@@ -17,16 +17,28 @@ use Doctrine\ORM\Internal\Hydration\ObjectHydrator as BaseObjectHydrator;
  */
 class ObjectHydrator extends BaseObjectHydrator
 {
+
+    private $savedSkipOnLoad;
+
     /**
      * {@inheritdoc}
      */
-    protected function hydrateAllData()
+    protected function prepare()
     {
         $listener = $this->getTranslatableListener();
+        $this->savedSkipOnLoad = $listener->isSkipOnLoad();
         $listener->setSkipOnLoad(true);
-        $result = parent::hydrateAllData();
-        $listener->setSkipOnLoad(false);
-        return $result;
+        parent::prepare();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function cleanup()
+    {
+        parent::cleanup();
+        $listener = $this->getTranslatableListener();
+        $listener->setSkipOnLoad($this->savedSkipOnLoad !== null ? $this->savedSkipOnLoad : false);
     }
 
     /**
